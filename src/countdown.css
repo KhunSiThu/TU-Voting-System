@@ -1,0 +1,34 @@
+#countdown {
+    background: #0a1323; /* Dark royal blue */
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+
+    .circle {
+        position: relative;
+        width: 120px;
+        height: 120px;
+      }
+      .circle svg {
+        transform: rotate(-90deg);
+      }
+      .circle .progress {
+        fill: none;
+        stroke-width: 12;
+        stroke-linecap: round;
+        transform-origin: center;
+      }
+      .circle .background {
+        fill: none;
+        stroke: rgba(255, 255, 255, 0.1);
+        stroke-width: 12;
+      }
+      .circle .label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-weight: bold;
+      }
+  }
+  
