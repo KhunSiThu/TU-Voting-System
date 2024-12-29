@@ -1,90 +1,100 @@
-<?php require_once "../Components/header.php" ?>
+<?php require_once "../Components/header.php";
+echo $user_major; ?>
 
 <div id="contestantsPage" class="bg-gray-100 text-gray-900">
 
-    <!-- Voting Policy Modal -->
-    <div id="policyModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden bg-blur z-50 p-5">
-        <div class="bg-white rounded-2xl shadow-lg p-8 max-w-2xl w-full transform scale-95 transition-all duration-300 ease-in-out">
-            <!-- Modal Header -->
-            <h2 class="text-3xl font-bold text-blue-600 mb-5">Voting Policy</h2>
-
-            <!-- Voting Policy Information -->
-            <div class="text-gray-700 leading-relaxed mb-6">
-                <p class="text-lg mb-4 prose text-justify">
-                    The voting process is designed to ensure fairness and transparency in selecting the King and Queen for each academic major.
-                    <strong>Each student is allowed to vote for only one King and one Queen</strong> from within their respective major. This policy ensures equal opportunity for leadership selection.
-                </p>
-
-                <!-- Voting Guidelines List -->
-                <ul class="list-disc list-inside text-gray-600 mb-6 prose text-justify">
-                    <li><strong>One vote per student:</strong> You may cast <strong>one vote for the King</strong> and <strong>one vote for the Queen</strong> only.</li>
-                    <li><strong>Vote within your major:</strong> Ensure your votes are for contestants within your respective major.</li>
-                    <li><strong>Confidentiality and fairness:</strong> Your vote is confidential, and each student is allowed only <strong>one vote per title</strong> (King and Queen).</li>
-                    <li><strong>Rule violations:</strong> Violations may lead to <strong>disqualification</strong> or other disciplinary actions.</li>
-                </ul>
-
-                <!-- Voting Period Section -->
-                <div class="bg-yellow-100 border-l-4 border-yellow-500 p-4 mb-6 rounded-lg">
-                    <h3 class="font-semibold text-lg text-yellow-600">Voting Period:</h3>
-                    <p class="text-gray-700">
-                        <strong>Start Date:</strong> January 10, 2024 <br>
-                        <strong>End Date:</strong> January 20, 2024 <br>
-                        <span class="text-red-500 font-medium">Ensure you cast your vote within this timeframe!</span>
-                    </p>
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex justify-between items-center">
-
-                <a href="./policy.php" class="text-blue-500 hover:text-blue-700 transition duration-200 pb-3 hover:underline">Privacy Policy</a>
-                <button id="closePolicyModal" class="bg-blue-500 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
-                    I Understand
-                </button>
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 p-2 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 bg-blur">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-96">
+            <button id="closeSuccessModal" class="absolute top-2 right-2 text-2xl font-bold text-gray-600">&times;</button>
+            <h2 class="text-xl font-semibold text-green-600 mb-4">Success</h2>
+            <p id="successMessage" class="text-sm text-gray-700 prose text-justify"></p>
+            <div class="mt-4">
+                <button class="bg-green-600 text-white py-2 px-4 rounded" id="closeSuccessModalBtn">Close</button>
             </div>
         </div>
     </div>
 
 
+    <!-- Error Modal -->
+    <div id="errorModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex  justify-center items-center z-50 bg-blur p-2">
+        <div class="bg-white p-6 rounded-lg shadow-xl w-96 text-center">
+            <button id="closeErrorModal" class="absolute top-2 right-2 text-2xl font-bold text-gray-600">&times;</button>
+            <h2 class="text-xl font-semibold text-red-600 mb-4">Error</h2>
+            <p id="errorMessage" class="text-sm text-gray-700 prose text-justify"></p>
+            <div class="mt-4">
+                <button class="bg-blue-600 text-white py-2 px-4 rounded" id="closeErrorModalBtn">Close</button>
+            </div>
+        </div>
+    </div>
 
+    <!-- Voting Policy Modal -->
+    <div id="policyModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center bg-blur z-50 p-2">
+        <div class="bg-white rounded-2xl shadow-lg p-8 max-w-2xl w-full transform scale-95 transition-all duration-300 ease-in-out">
+            <h2 class="text-3xl font-bold text-blue-600 mb-5">Voting Guidelines</h2>
+            <div class="text-gray-700 leading-relaxed mb-6">
+                <p class="text-lg hidden md:block sm:block mb-4 prose text-justify">
+                    Voting aims to maintain fairness and transparency in selecting the King and Queen for each major.
+                    <strong>Each student may vote for one King and one Queen</strong> from their respective department only. This ensures equal opportunities for all participants.
+                </p>
+                <ul class="list-disc list-inside text-gray-600 mb-6 prose text-justify">
+                    <li><strong>One vote per student:</strong> Cast <strong>one vote for King</strong> and <strong>one vote for Queen</strong>.</li>
+                    <li><strong>Vote within your major:</strong> Only vote for contestants in your department.</li>
+                    <li><strong>Confidentiality and fairness:</strong> Votes are confidential; each student is allowed <strong>one vote per position</strong>.</li>
+                    <li><strong>Rule violations:</strong> Violations may lead to <strong>disqualification</strong> or other disciplinary measures.</li>
+                </ul>
+                <div class="bg-yellow-100 hidden md:block sm:block  border-l-4 border-yellow-500 p-4 mb-6 rounded-lg">
+                    <h3 class="font-semibold text-lg text-yellow-600">Voting Period:</h3>
+                    <p class="text-gray-700">
+                        <strong>Start:</strong> January 10, 2024<br>
+                        <strong>End:</strong> January 20, 2024<br>
+                        <span class="text-red-500 font-medium">Please submit your votes on time!</span>
+                    </p>
+                </div>
+            </div>
+            <div class="flex justify-between items-center">
+                <a href="./policy.php" class="text-blue-500 hover:text-blue-700 transition duration-200 pb-3 hover:underline">Privacy Policy</a>
+                <button id="closePolicyModal" class="bg-blue-500 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200">
+                    Got it!
+                </button>
+            </div>
+        </div>
+    </div>
 
-    <div id="matchModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-50 bg-blur p-10">
+    <!-- Confirm Vote Modal -->
+    <div id="matchModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-50 bg-blur p-2">
         <div class="bg-white rounded-xl shadow-lg p-6 max-w-lg w-full text-center relative">
-
             <div class="flex w-full justify-center items-center text-sm mb-6">
                 <span class="w-20 h-20 text-3xl font-bold bg-blue-100 text-blue-800 flex items-center justify-center rounded-full mr-3">
                     <i class="fa-solid fa-question fa-shake text-blue-400"></i>
                 </span>
             </div>
-
-            <h2 class="text-3xl font-extrabold text-gray-800 mb-4">Confirm Your Vote</h2>
-            <p class="text-gray-600 mb-6">
+            <h2 class="text-2xl font-extrabold text-gray-800 mb-4">Confirm Your Selection</h2>
+            <p class="text-gray-600 mb-6 prose text-justify">
                 Are you sure you want to vote for
-                <span id="matchContestantName" class="font-bold text-gray-800"></span> (#<span id="matchContestantNumber" class=" font-bold text-gray-800"></span>)?
-                <br> You cannot change this vote once submitted.
+                <span id="matchContestantName" class="font-bold text-gray-800"></span> (#<span id="matchContestantNumber" class="font-bold text-gray-800"></span>)?
+               Once submitted, votes cannot be changed.
             </p>
             <div class="flex justify-evenly">
-
                 <button id="closeMatchModal" class="bg-gray-300 text-gray-700 font-medium px-5 py-3 rounded-lg hover:bg-gray-400 transition duration-200">
                     Cancel
                 </button>
                 <button id="confirmMatchVote" class="bg-blue-500 text-white font-medium px-3 py-3 rounded-lg hover:bg-blue-700 transition duration-200">
                     Confirm Vote
                 </button>
-
             </div>
         </div>
     </div>
 
-    <!-- Modal for Not Matching Major -->
-    <div id="mismatchModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-50 bg-blur p-10">
-        <div class="bg-white rounded-xl shadow-lg p-6 max-w-lg w-full text-center">
+    <!-- Mismatch Major Modal -->
+    <div id="mismatchModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-50 bg-blur p-3">
+        <div class="bg-white rounded-xl shadow-lg p-6 max-w-lg w-full text-center ">
             <span class=""><i class="mb-6 fa-solid fa-circle-exclamation fa-shake text-7xl" style="color: #ff0a0a;"></i></span>
-            <h2 class="text-3xl font-extrabold text-red-600 mb-4">Vote Not Allowed</h2>
-            <p class="text-gray-600 mb-6">
-                Sorry, you cannot vote for
-                <span id="mismatchContestantName" class="font-bold text-gray-800"></span> (#<span id="mismatchContestantNumber" class="font-bold text-gray-800"></span>) because they belong to a different major.
-                Please choose a contestant from your own major.
+            <h2 class="text-3xl font-extrabold text-red-600 mb-4">Vote Rejected</h2>
+            <p class="text-gray-600 mb-6 prose text-justify">
+                You cannot vote for
+                <span id="mismatchContestantName" class="font-bold text-gray-800"></span> (#<span id="mismatchContestantNumber" class="font-bold text-gray-800"></span>) as they are from a different major.
+                Please select a contestant from your department.
             </p>
             <div class="flex justify-center">
                 <button id="closeMismatchModal" class="bg-gray-300 text-gray-700 font-medium px-5 py-2 rounded-lg hover:bg-gray-400 transition duration-200">
@@ -122,7 +132,6 @@
                 id="searchInput"
                 placeholder="Search by Name or Contestant Number"
                 class="px-4 py-2 border border-gray-300 rounded-lg w-full max-w-md mx-auto text-lg">
-
         </div>
     </section>
 
@@ -141,9 +150,8 @@
     </section>
 
     <!-- Contestant Sections -->
-    <section class="pb-16 text-center ">
+    <section class="py-16 px-3 text-center ">
         <div id="contestants-show-con" class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-12">
-
         </div>
     </section>
 
@@ -158,8 +166,22 @@
 
 </div>
 
+<!-- <script src="../JS/contestants.js"></script> -->
+
 <script>
     const contestantsShowCon = document.querySelector("#contestants-show-con");
+
+
+    const allMajor = {
+        EC: "Electrical Engineering",
+        ME: "Mechanical Engineering",
+        CE: "Civil Engineering",
+        EP: "Electronic Power Engineering"
+    };
+
+    console.log(allMajor.CE)
+
+
 
     fetch("../Controllers/getAllContestants.php")
         .then(response => {
@@ -176,12 +198,23 @@
 
             contestantsShowCon.innerHTML = ""
 
-
             // Generate contestant cards
             data.forEach(contestant => {
                 const contestantCard = document.createElement('div');
                 contestantCard.classList.add('contestant-card', 'bg-white', 'rounded-xl', 'shadow-lg', 'p-5', 'card-hover');
                 contestantCard.setAttribute('data-major', contestant.major); // Store major for filtering
+
+                let majorName = "";
+
+                if (contestant.major == "EC") {
+                    majorName = "Electrical Engineering";
+                } else if (contestant.major == "EP") {
+                    majorName = "Electronic Power Engineering";
+                } else if (contestant.major == "ME") {
+                    majorName = "Mechanical Engineering";
+                } else if (contestant.major == "CE") {
+                    majorName = "Civil Engineering";
+                }
 
                 contestantCard.innerHTML = `
                     <div class="relative">
@@ -193,12 +226,14 @@
                         </div>
                     </div>
                     <h2 class="text-2xl font-bold text-blue-800 my-4">${contestant.name}</h2>
-                    <p>Major - ${contestant.major}</p>
+                    <p class="font-bold">Major - ${majorName}</p>
                     <button 
                         class="voteBtn bg-blue-700 text-white px-4 py-2 rounded mt-4" 
                         data-name="${contestant.name}" 
                         data-number="${contestant.contestant_no}" 
-                        data-major="${contestant.major}">
+                        data-major="${contestant.major}"
+                        data-gender="${contestant.gender}"
+                        data-email="${contestant.email}">
                         Vote Now
                     </button>
                 `;
@@ -225,88 +260,152 @@
         const confirmMatchVote = document.getElementById("confirmMatchVote");
 
         voteButtons.forEach(button => {
-            button.addEventListener("keyup", e => {
+            button.addEventListener("click", e => {
                 const name = button.getAttribute("data-name");
                 const number = button.getAttribute("data-number");
                 const major = button.getAttribute("data-major");
+                const email = button.getAttribute("data-email");
 
                 let userMajor = <?php echo json_encode($_SESSION['user_major']); ?>;
+                console.log(userMajor);
 
                 if (major === userMajor) {
                     matchContestantName.textContent = name;
                     matchContestantNumber.textContent = number;
                     matchModal.classList.remove("hidden");
+                    document.querySelector("#confirmMatchVote").addEventListener("click", () => confirmVote(email));
+                    closeMatchModal.addEventListener("click", () => matchModal.classList.add("hidden"));
                 } else {
-                    mismatchModal.querySelector("#mismatchContestantName").textContent = name;
-                    mismatchModal.querySelector("#mismatchContestantNumber").textContent = number;
                     mismatchModal.classList.remove("hidden");
+                    document.getElementById("mismatchContestantName").textContent = name;
+                    document.getElementById("mismatchContestantNumber").textContent = number;
                 }
             });
         });
 
         closeMatchModal.addEventListener("click", () => matchModal.classList.add("hidden"));
         closeMismatchModal.addEventListener("click", () => {
+            mismatchModal.classList.add("hidden");
             localStorage.removeItem("policy");
-            location.reload();
+            document.querySelector("#policyModal").classList.remove('hidden');
         });
-        confirmMatchVote.addEventListener("click", () => {
-            alert("Your vote has been submitted!");
-            matchModal.classList.add("hidden");
-        });
+
+
+        if (localStorage.getItem("policy")) {
+            document.querySelector("#policyModal").classList.add('hidden');
+        }
+
+        document.querySelector("#closePolicyModal").addEventListener("click", () => {
+            document.querySelector("#policyModal").classList.add('hidden');
+            localStorage.setItem("policy", "show");
+        })
     }
 
-    // Filter contestants by major
     function filterContestants(major) {
-        const contestantCards = document.querySelectorAll(".contestant-card");
-
-        contestantCards.forEach(card => {
-            if (major === "all" || card.getAttribute("data-major") === major) {
-                card.classList.remove("hidden");
+        const cards = document.querySelectorAll('.contestant-card');
+        cards.forEach(card => {
+            if (major === 'all' || card.getAttribute('data-major') === major) {
+                card.classList.remove('hidden');
             } else {
-                card.classList.add("hidden");
+                card.classList.add('hidden');
             }
         });
     }
 
-    // Search functionality
-    document.addEventListener("DOMContentLoaded", () => {
-        const searchInput = document.getElementById("searchInput");
-        const contestantCards = document.querySelectorAll(".contestant-card");
+    // Search filter
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function() {
+        const query = searchInput.value.toLowerCase();
+        const cards = document.querySelectorAll('.contestant-card');
+        cards.forEach(card => {
+            const name = card.querySelector('h2').textContent.toLowerCase();
+            const number = card.querySelector('.w-16').textContent;
+            if (name.includes(query) || number.includes(query)) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+    });
 
-        // Update search functionality to work on keyup event
-        searchInput.addEventListener("keyup", function() {
-            const query = this.value.toLowerCase(); // Get the search query in lowercase
+    async function confirmVote(email) {
+        const matchModal = document.getElementById("matchModal");
+        matchModal.classList.add("hidden");
 
-            contestantCards.forEach(card => {
-                const name = card.querySelector("h2").textContent.toLowerCase(); // Convert name to lowercase
-                const number = card.querySelector("span").textContent.toLowerCase(); // Convert contestant number to lowercase
+        const voteData = {
+            email
+        };
 
-                // Show card if query matches name or contestant number, otherwise hide it
-                if (name.includes(query) || number.includes(query)) {
-                    card.classList.remove("hidden"); // Show matching card
-                } else {
-                    card.classList.add("hidden"); // Hide non-matching card
-                }
+        try {
+            const response = await fetch("../Controllers/submit_vote.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(voteData),
             });
-        });
-    });
 
+            const result = await response.json();
 
-    document.addEventListener("DOMContentLoaded", function() {
-        const policyModal = document.getElementById("policyModal");
-        const closePolicyModal = document.getElementById("closePolicyModal");
-
-        if (!localStorage.getItem("policy")) {
-            // Show the modal when the page loads
-            policyModal.classList.remove("hidden");
+            if (result.status === "success") {
+                showSuccessModal(result.message);
+            } else {
+                showErrorModal(result.message);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            showErrorModal("An error occurred while submitting your vote.");
         }
+    }
 
-        // Hide the modal when the user clicks "I Understand"
-        closePolicyModal.addEventListener("click", () => {
-            policyModal.classList.add("hidden");
-            localStorage.setItem("policy", "show");
+    function showSuccessModal(message) {
+        const successModal = document.getElementById("successModal");
+        const successMessage = document.getElementById("successMessage");
+        const closeSuccessModal = document.getElementById("closeSuccessModal");
+        const closeSuccessModalBtn = document.getElementById("closeSuccessModalBtn");
+
+        successMessage.textContent = message;
+        successModal.classList.remove("hidden");
+        errorModal.classList.add("hidden");
+
+        closeSuccessModal.addEventListener("click", () => {
+            successModal.classList.add("hidden");
         });
-    });
+
+        closeSuccessModalBtn.addEventListener("click", () => {
+            successModal.classList.add("hidden");
+        });
+
+        window.addEventListener("click", (event) => {
+            if (event.target === successModal) {
+                successModal.classList.add("hidden");
+            }
+        });
+    }
+
+    function showErrorModal(message) {
+        const errorModal = document.getElementById("errorModal");
+        const errorMessage = document.getElementById("errorMessage");
+        const closeErrorModal = document.getElementById("closeErrorModal");
+        const closeErrorModalBtn = document.getElementById("closeErrorModalBtn");
+
+        errorMessage.textContent = message;
+        errorModal.classList.remove("hidden");
+
+        closeErrorModal.addEventListener("click", () => {
+            errorModal.classList.add("hidden");
+        });
+
+        closeErrorModalBtn.addEventListener("click", () => {
+            errorModal.classList.add("hidden");
+        });
+
+        window.addEventListener("click", (event) => {
+            if (event.target === errorModal) {
+                errorModal.classList.add("hidden");
+            }
+        });
+    }
 </script>
 
 <?php require_once "../Components/footer.php" ?>

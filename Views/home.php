@@ -105,7 +105,7 @@
           <p class="text-gray-600 mb-4 prose text-justify">
             Vote for the King and Queen from the Electronic Engineering major. These students are leading the way in technology and innovation.
           </p>
-          <a href="/vote/ee" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+          <a href="./contestants.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
             Vote Now
           </a>
         </div>
@@ -119,7 +119,7 @@
           <p class="text-gray-600 mb-4 prose text-justify">
             Cast your vote for the King and Queen of the Electrical Power Engineering major. Empower the future of energy and power systems.
           </p>
-          <a href="/vote/epe" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+          <a href="./contestants.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
             Vote Now
           </a>
         </div>
@@ -131,7 +131,7 @@
           <p class="text-gray-600 mb-4 prose text-justify">
             Vote for the King and Queen from Mechanical Engineering, where students are shaping the future of machines and technology.
           </p>
-          <a href="/vote/me" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+          <a href="./contestants.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
             Vote Now
           </a>
         </div>
@@ -143,7 +143,7 @@
           <p class="text-gray-600 mb-4 prose text-justify">
             Cast your vote for the King and Queen of the Civil Engineering major. Help build a strong foundation for the future of infrastructure.
           </p>
-          <a href="/vote/ce" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+          <a href="./contestants.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
             Vote Now
           </a>
         </div>

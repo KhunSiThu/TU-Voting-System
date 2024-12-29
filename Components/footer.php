@@ -9,7 +9,7 @@
           <a href="../Views/home.php" class="hover:text-yellow-300 block">Home</a>
           <a href="../Views/contestants.php" class="hover:text-yellow-300 block">Contestants</a>
           <a href="../Views/vote.php" class="hover:text-yellow-300 block">Vote</a>
-          <a href="../Views/winners.php" class="hover:text-yellow-300 block">Winners</a>
+          <a href="../Views/results.php" class="hover:text-yellow-300 block">Results</a>
           <a href="../Views/contact.php" class="hover:text-yellow-300 block">Contact</a>
         </nav>
       </div>

@@ -1,8 +1,28 @@
 <?php
 session_start();
 
-$user_major = $_SESSION['user_major'];
+// Assuming you have set the session somewhere before, like:
+// $_SESSION['user_major'] = "EC"; 
+
+$user_major = $_SESSION['user_major'];  // Get user major from session
+
+$majors = array(
+    "EC" => "Electrical Engineering",
+    "ME" => "Mechanical Engineering",
+    "CE" => "Civil Engineering",
+    "EP" => "Electronic Power Engineering"
+);
+
+// Ensure the session value is valid
+if (isset($majors[$user_major])) {
+    $major = $majors[$user_major];  // Get the major from the array
+   
+} else {
+    echo "Major not found.";
+    // die();  // Handle the case where the major is not valid
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

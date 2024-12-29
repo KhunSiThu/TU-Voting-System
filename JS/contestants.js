@@ -1,150 +1,238 @@
-const contestantsShowCon = document.querySelector("#contestants-show-con");
 
-// Fetch data from the backend
-fetch("../Controllers/getAllContestants.php")
-    .then((response) => {
-        if (!response.ok) {
-            throw new Error("Failed to fetch contestants data");
-        }
-        return response.json();
-    })
-    .then((data) => {
-        // Check if data is available
-        if (!data || data.length === 0) {
-            contestantsShowCon.innerHTML = '<p class="text-gray-700">No data available</p>';
-            return;
-        }
+    const contestantsShowCon = document.querySelector("#contestants-show-con");
 
-        // Define majors and their containers
-        const majors = {
-            EC: { label: "Electronic Engineering", container: document.querySelector("#EC"), content: "" },
-            CE: { label: "Civil Engineering", container: document.querySelector("#CE"), content: "" },
-            EP: { label: "Electrical Engineering", container: document.querySelector("#EP"), content: "" },
-            ME: { label: "Mechanical Engineering", container: document.querySelector("#ME"), content: "" },
-        };
 
-        // Generate HTML for each contestant
-        data.forEach((e) => {
-            if (!majors[e.major]) {
-                console.warn(`Contestant with major ${e.major} does not have a corresponding container.`);
+    const allMajor = {
+        EC: "Electrical Engineering",
+        ME: "Mechanical Engineering",
+        CE: "Civil Engineering",
+        EP: "Electronic Power Engineering"
+    };
+
+    console.log(allMajor.CE)
+
+
+
+    fetch("../Controllers/getAllContestants.php")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to fetch contestants data: " + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (!data || data.length === 0) {
+                contestantsShowCon.innerHTML = '<p class="text-gray-700">No contestants available</p>';
                 return;
             }
 
-            majors[e.major].content += `
-                <div class="bg-white rounded-xl shadow-lg contestant-card p-5 card-hover">
+            contestantsShowCon.innerHTML = ""
+
+            // Generate contestant cards
+            data.forEach(contestant => {
+                const contestantCard = document.createElement('div');
+                contestantCard.classList.add('contestant-card', 'bg-white', 'rounded-xl', 'shadow-lg', 'p-5', 'card-hover');
+                contestantCard.setAttribute('data-major', contestant.major); // Store major for filtering
+
+                let majorName = "";
+
+                if (contestant.major == "EC") {
+                    majorName = "Electrical Engineering";
+                } else if (contestant.major == "EP") {
+                    majorName = "Electronic Power Engineering";
+                } else if (contestant.major == "ME") {
+                    majorName = "Mechanical Engineering";
+                } else if (contestant.major == "CE") {
+                    majorName = "Civil Engineering";
+                }
+
+                contestantCard.innerHTML = `
                     <div class="relative">
-                        <img class="w-full h-60 object-cover rounded-t-lg" src="${e.profileImg || '../uploads/contestants/contestant3.jpg'}" alt="Profile image of ${e.name}" />
+                        <img class="w-full h-60 object-cover" src="${contestant.profileImg || '../uploads/contestants/contestant3.jpg'}" alt="Profile image of ${contestant.name}" />
                         <div class="flex absolute left-5 bottom-5 items-center text-sm">
                             <span class="w-16 h-16 text-3xl font-bold bg-blue-100 text-blue-800 flex items-center justify-center rounded-full mr-3">
-                                ${e.contestant_no}
+                                ${contestant.contestant_no}
                             </span>
                         </div>
                     </div>
-                    <div class="mb-6">
-                        <h1 class="text-2xl font-bold text-blue-800 my-4">${e.name}</h1>
-                        <p class="mb-3">Major - ${majors[e.major].label}</p>
-                    </div>
-                    <a href="#" 
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-3 text-center voteBtn" 
-                        data-name="${e.name}" 
-                        data-number="${e.contestant_no}" 
-                        data-major="${e.major}">
+                    <h2 class="text-2xl font-bold text-blue-800 my-4">${contestant.name}</h2>
+                    <p class="font-bold">Major - ${majorName}</p>
+                    <button 
+                        class="voteBtn bg-blue-700 text-white px-4 py-2 rounded mt-4" 
+                        data-name="${contestant.name}" 
+                        data-number="${contestant.contestant_no}" 
+                        data-major="${contestant.major}"
+                        data-gender="${contestant.gender}"
+                        data-email="${contestant.email}">
                         Vote Now
-                    </a>
-                </div>`;
+                    </button>
+                `;
+
+                contestantsShowCon.appendChild(contestantCard);
+            });
+
+            setupVoteButtons();
+        })
+        .catch(error => {
+            console.error("Error loading contestants:", error);
+            contestantsShowCon.innerHTML = `<p class="text-red-600">Error loading contestants. Please try again later. ${error.message}</p>`;
         });
 
-        // Render HTML for each major
-        Object.keys(majors).forEach((key) => {
-            if (majors[key].container) {
-                majors[key].container.innerHTML = majors[key].content || '<p class="text-gray-700">No contestants in this category</p>';
-            }
+    // Setup vote buttons
+    function setupVoteButtons() {
+        const voteButtons = document.querySelectorAll(".voteBtn");
+        const matchModal = document.getElementById("matchModal");
+        const mismatchModal = document.getElementById("mismatchModal");
+        const matchContestantName = document.getElementById("matchContestantName");
+        const matchContestantNumber = document.getElementById("matchContestantNumber");
+        const closeMatchModal = document.getElementById("closeMatchModal");
+        const closeMismatchModal = document.getElementById("closeMismatchModal");
+        const confirmMatchVote = document.getElementById("confirmMatchVote");
+
+        voteButtons.forEach(button => {
+            button.addEventListener("click", e => {
+                const name = button.getAttribute("data-name");
+                const number = button.getAttribute("data-number");
+                const major = button.getAttribute("data-major");
+                const email = button.getAttribute("data-email");
+
+                let userMajor = <?php echo json_encode($_SESSION['user_major']); ?>;
+                console.log(userMajor);
+
+                if (major === userMajor) {
+                    matchContestantName.textContent = name;
+                    matchContestantNumber.textContent = number;
+                    matchModal.classList.remove("hidden");
+                    document.querySelector("#confirmMatchVote").addEventListener("click", () => confirmVote(email));
+                    closeMatchModal.addEventListener("click", () => matchModal.classList.add("hidden"));
+                } else {
+                    mismatchModal.classList.remove("hidden");
+                    document.getElementById("mismatchContestantName").textContent = name;
+                    document.getElementById("mismatchContestantNumber").textContent = number;
+                }
+            });
         });
 
-        // Add event listeners to "Vote Now" buttons
-        setupVoteButtons();
-    })
-    .catch((error) => {
-        console.error("Error fetching contestants:", error);
-        contestantsShowCon.innerHTML = '<p class="text-red-600">Error loading contestants data. Please try again later.</p>';
-    });
+        closeMatchModal.addEventListener("click", () => matchModal.classList.add("hidden"));
+        closeMismatchModal.addEventListener("click", () => {
+            mismatchModal.classList.add("hidden");
+            localStorage.removeItem("policy");
+            document.querySelector("#policyModal").classList.remove('hidden');
+        });
 
-// Function to filter contestants by major
-function filterContestants(major) {
-    const sections = document.querySelectorAll(".major-section");
-    sections.forEach((section) => {
-        if (major === "all" || section.getAttribute("data-major") === major) {
-            section.classList.remove("hidden");
-        } else {
-            section.classList.add("hidden");
+
+        if (localStorage.getItem("policy")) {
+            document.querySelector("#policyModal").classList.add('hidden');
         }
-    });
-}
 
-// Function to set up event listeners for vote buttons
-function setupVoteButtons() {
-    const voteButtons = document.querySelectorAll(".voteBtn");
-    const modal = document.getElementById("voteModal");
-    const closeModal = document.getElementById("closeModal");
-    const contestantNameSpan = document.getElementById("contestantName");
-    const contestantNumberSpan = document.getElementById("contestantNumber");
-    const confirmVote = document.getElementById("confirmVote");
-
-    // Validate modal elements exist
-    if (!modal || !closeModal || !contestantNameSpan || !contestantNumberSpan || !confirmVote) {
-        console.error("Modal elements are missing from the DOM.");
-        return;
+        document.querySelector("#closePolicyModal").addEventListener("click", () => {
+            document.querySelector("#policyModal").classList.add('hidden');
+            localStorage.setItem("policy", "show");
+        })
     }
 
-    voteButtons.forEach((button) => {
-        button.addEventListener("click", (e) => {
-            e.preventDefault();
-
-            // Get button data attributes
-            const name = button.getAttribute("data-name");
-            const number = button.getAttribute("data-number");
-            const major = button.getAttribute("data-major");
-            const requiredMajor = "EC"; // Change this to your criteria
-
-            if (!name || !number || !major) {
-                console.warn("Button data attributes are missing or invalid.");
-                return;
-            }
-
-            // Check major condition
-            if (major === requiredMajor) {
-                // Populate modal content for a valid vote
-                contestantNameSpan.textContent = name;
-                contestantNumberSpan.textContent = number;
-
-                // Show modal
-                modal.classList.remove("hidden");
-                modal.style.display = "flex"; // Ensure modal is displayed as flex
+    function filterContestants(major) {
+        const cards = document.querySelectorAll('.contestant-card');
+        cards.forEach(card => {
+            if (major === 'all' || card.getAttribute('data-major') === major) {
+                card.classList.remove('hidden');
             } else {
-                alert("You cannot vote for this contestant because their major does not match your criteria.");
+                card.classList.add('hidden');
+            }
+        });
+    }
+
+    // Search filter
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function() {
+        const query = searchInput.value.toLowerCase();
+        const cards = document.querySelectorAll('.contestant-card');
+        cards.forEach(card => {
+            const name = card.querySelector('h2').textContent.toLowerCase();
+            const number = card.querySelector('.w-16').textContent;
+            if (name.includes(query) || number.includes(query)) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
             }
         });
     });
 
-    // Close modal on cancel
-    closeModal.addEventListener("click", () => {
-        modal.classList.add("hidden");
-        modal.style.display = "none"; // Hide modal properly
-    });
+    async function confirmVote(email) {
+        const matchModal = document.getElementById("matchModal");
+        matchModal.classList.add("hidden");
 
-    // Close modal when clicking outside the modal content
-    window.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            modal.classList.add("hidden");
-            modal.style.display = "none"; // Hide modal properly
+        const voteData = {
+            email
+        };
+
+        try {
+            const response = await fetch("../Controllers/submit_vote.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(voteData),
+            });
+
+            const result = await response.json();
+
+            if (result.status === "success") {
+                showSuccessModal(result.message);
+            } else {
+                showErrorModal(result.message);
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            showErrorModal("An error occurred while submitting your vote.");
         }
-    });
+    }
 
-    // Confirm vote action
-    confirmVote.addEventListener("click", () => {
-        alert("Your vote has been submitted!");
-        modal.classList.add("hidden");
-        modal.style.display = "none"; // Hide modal properly
-    });
-}
+    function showSuccessModal(message) {
+        const successModal = document.getElementById("successModal");
+        const successMessage = document.getElementById("successMessage");
+        const closeSuccessModal = document.getElementById("closeSuccessModal");
+        const closeSuccessModalBtn = document.getElementById("closeSuccessModalBtn");
 
+        successMessage.textContent = message;
+        successModal.classList.remove("hidden");
+        errorModal.classList.add("hidden");
+
+        closeSuccessModal.addEventListener("click", () => {
+            successModal.classList.add("hidden");
+        });
+
+        closeSuccessModalBtn.addEventListener("click", () => {
+            successModal.classList.add("hidden");
+        });
+
+        window.addEventListener("click", (event) => {
+            if (event.target === successModal) {
+                successModal.classList.add("hidden");
+            }
+        });
+    }
+
+    function showErrorModal(message) {
+        const errorModal = document.getElementById("errorModal");
+        const errorMessage = document.getElementById("errorMessage");
+        const closeErrorModal = document.getElementById("closeErrorModal");
+        const closeErrorModalBtn = document.getElementById("closeErrorModalBtn");
+
+        errorMessage.textContent = message;
+        errorModal.classList.remove("hidden");
+
+        closeErrorModal.addEventListener("click", () => {
+            errorModal.classList.add("hidden");
+        });
+
+        closeErrorModalBtn.addEventListener("click", () => {
+            errorModal.classList.add("hidden");
+        });
+
+        window.addEventListener("click", (event) => {
+            if (event.target === errorModal) {
+                errorModal.classList.add("hidden");
+            }
+        });
+    }

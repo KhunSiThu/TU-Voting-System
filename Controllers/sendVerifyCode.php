@@ -27,9 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (mysqli_num_rows($result) > 0) {
             $user = mysqli_fetch_assoc($result);
-
-            $_SESSION['user_email'] = $user['email'];
-            $_SESSION['user_major'] = $user['major'];
+            
 
             // Generate a random 4-digit verification code
             $verification_code = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
@@ -37,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Store the verification code in the session
             $_SESSION['verification_code'] = $verification_code;
             $_SESSION['user_email'] = $user['email'];
+            $_SESSION['user_major'] = $user['major'];
 
             require "../src/sendEmail/vendor/autoload.php";
 
