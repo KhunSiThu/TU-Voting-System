@@ -18,8 +18,8 @@ if (isset($majors[$user_major])) {
     $major = $majors[$user_major];  // Get the major from the array
    
 } else {
-    echo "Major not found.";
-    // die();  // Handle the case where the major is not valid
+    // echo "Major not found.";
+    // header("Location: ../index.php?error"); 
 }
 ?>
 

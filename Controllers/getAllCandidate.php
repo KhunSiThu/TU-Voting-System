@@ -4,7 +4,7 @@
 require_once './db_connect.php';
 
 // Write the SQL query
-$sql = "SELECT * FROM contestants";
+$sql = "SELECT * FROM candidate";
 
 // Execute the query
 $result = $conn->query($sql);

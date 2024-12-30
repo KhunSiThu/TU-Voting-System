@@ -3,6 +3,6 @@
 
 
 
-header("Location:./Public/form.php"); 
+header("Location:./Public/login.php"); 
 
 ?>

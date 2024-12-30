@@ -1,7 +1,7 @@
 <?php require_once "../Components/header.php";
 echo $user_major; ?>
 
-<div id="contestantsPage" class="bg-gray-100 text-gray-900">
+<div id="candidatesPage" class="bg-gray-100 text-gray-900">
 
     <!-- Success Modal -->
     <div id="successModal" class="fixed inset-0 p-2 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 bg-blur">
@@ -39,7 +39,7 @@ echo $user_major; ?>
                 </p>
                 <ul class="list-disc list-inside text-gray-600 mb-6 prose text-justify">
                     <li><strong>One vote per student:</strong> Cast <strong>one vote for King</strong> and <strong>one vote for Queen</strong>.</li>
-                    <li><strong>Vote within your major:</strong> Only vote for contestants in your department.</li>
+                    <li><strong>Vote within your major:</strong> Only vote for candidates in your department.</li>
                     <li><strong>Confidentiality and fairness:</strong> Votes are confidential; each student is allowed <strong>one vote per position</strong>.</li>
                     <li><strong>Rule violations:</strong> Violations may lead to <strong>disqualification</strong> or other disciplinary measures.</li>
                 </ul>
@@ -72,7 +72,7 @@ echo $user_major; ?>
             <h2 class="text-2xl font-extrabold text-gray-800 mb-4">Confirm Your Selection</h2>
             <p class="text-gray-600 mb-6 prose text-justify">
                 Are you sure you want to vote for
-                <span id="matchContestantName" class="font-bold text-gray-800"></span> (#<span id="matchContestantNumber" class="font-bold text-gray-800"></span>)?
+                <span id="matchcandidateName" class="font-bold text-gray-800"></span> (#<span id="matchcandidateNumber" class="font-bold text-gray-800"></span>)?
                Once submitted, votes cannot be changed.
             </p>
             <div class="flex justify-evenly">
@@ -93,8 +93,8 @@ echo $user_major; ?>
             <h2 class="text-3xl font-extrabold text-red-600 mb-4">Vote Rejected</h2>
             <p class="text-gray-600 mb-6 prose text-justify">
                 You cannot vote for
-                <span id="mismatchContestantName" class="font-bold text-gray-800"></span> (#<span id="mismatchContestantNumber" class="font-bold text-gray-800"></span>) as they are from a different major.
-                Please select a contestant from your department.
+                <span id="mismatchcandidateName" class="font-bold text-gray-800"></span> (#<span id="mismatchcandidateNumber" class="font-bold text-gray-800"></span>) as they are from a different major.
+                Please select a candidate from your department.
             </p>
             <div class="flex justify-center">
                 <button id="closeMismatchModal" class="bg-gray-300 text-gray-700 font-medium px-5 py-2 rounded-lg hover:bg-gray-400 transition duration-200">
@@ -110,9 +110,9 @@ echo $user_major; ?>
     <section id="hero" class="bg-gradient-to-r from-indigo-600 to-indigo-400 text-center py-20 relative bg-cover bg-center" style="background-image: url('../Images/school.png')">
         <div class="absolute inset-0 bg-gradient-to-r from-black to-black opacity-70"></div>
         <div class="relative px-4 sm:px-6 lg:px-8">
-            <h1 class="text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">Meet the Contestants</h1>
+            <h1 class="text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">Meet the candidates</h1>
             <p class="text-base sm:text-lg lg:text-2xl text-white mb-6 sm:mb-8">
-                Get to know the contestants vying for the title of King and Queen!
+                Get to know the candidates vying for the title of King and Queen!
             </p>
             <div class="grid grid-cols-4 sm:grid-cols-4 gap-4 justify-center items-center max-w-3xl mx-auto z-20">
                 <img src="../Images/EC.png" class="w-32 sm:w-20 lg:w-32 h-auto" alt="EC">
@@ -126,11 +126,11 @@ echo $user_major; ?>
     <!-- Search Section -->
     <section class="py-10 text-center">
         <div class="max-w-6xl mx-auto px-4 sm:px-0 lg:px-8">
-            <h2 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">Search Contestants</h2>
+            <h2 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">Search candidates</h2>
             <input
                 type="text"
                 id="searchInput"
-                placeholder="Search by Name or Contestant Number"
+                placeholder="Search by Name or candidate Number"
                 class="px-4 py-2 border border-gray-300 rounded-lg w-full max-w-md mx-auto text-lg">
         </div>
     </section>
@@ -138,20 +138,20 @@ echo $user_major; ?>
     <!-- Filter Section -->
     <section class="hidden pb-10 text-center lg:block">
         <div class="max-w-6xl mx-auto px-0 sm:px-0 lg:px-8">
-            <h2 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">Contestants by Major</h2>
+            <h2 class="text-xl sm:text-2xl lg:text-3xl font-semibold mb-4">candidates by Major</h2>
             <div class="flex flex-wrap justify-center gap-5 ">
-                <button class="bg-blue-500 text-white p-3 rounded text-sm sm:text-base" onclick="filterContestants('all')">All</button>
-                <button class="bg-blue-500 text-white p-3 rounded text-md sm:text-base" onclick="filterContestants('CE')">Civil Engineering</button>
-                <button class="bg-blue-500 text-white p-3 rounded text-md sm:text-base" onclick="filterContestants('EP')">Electrical Power Engineering</button>
-                <button class="bg-blue-500 text-white p-3 rounded text-md sm:text-base" onclick="filterContestants('EC')">Electronic Engineering</button>
-                <button class="bg-blue-500 text-white p-3 rounded text-md sm:text-base" onclick="filterContestants('ME')">Mechanical Engineering</button>
+                <button class="bg-blue-500 text-white p-3 rounded text-sm sm:text-base" onclick="filtercandidates('all')">All</button>
+                <button class="bg-blue-500 text-white p-3 rounded text-md sm:text-base" onclick="filtercandidates('CE')">Civil Engineering</button>
+                <button class="bg-blue-500 text-white p-3 rounded text-md sm:text-base" onclick="filtercandidates('EP')">Electrical Power Engineering</button>
+                <button class="bg-blue-500 text-white p-3 rounded text-md sm:text-base" onclick="filtercandidates('EC')">Electronic Engineering</button>
+                <button class="bg-blue-500 text-white p-3 rounded text-md sm:text-base" onclick="filtercandidates('ME')">Mechanical Engineering</button>
             </div>
         </div>
     </section>
 
-    <!-- Contestant Sections -->
+    <!-- candidate Sections -->
     <section class="py-16 px-3 text-center ">
-        <div id="contestants-show-con" class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-12">
+        <div id="candidates-show-con" class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-12">
         </div>
     </section>
 
@@ -166,10 +166,10 @@ echo $user_major; ?>
 
 </div>
 
-<!-- <script src="../JS/contestants.js"></script> -->
+<!-- <script src="../JS/candidates.js"></script> -->
 
 <script>
-    const contestantsShowCon = document.querySelector("#contestants-show-con");
+    const candidatesShowCon = document.querySelector("#candidates-show-con");
 
 
     const allMajor = {
@@ -183,69 +183,69 @@ echo $user_major; ?>
 
 
 
-    fetch("../Controllers/getAllContestants.php")
+    fetch("../Controllers/getAllCandidate.php")
         .then(response => {
             if (!response.ok) {
-                throw new Error("Failed to fetch contestants data: " + response.statusText);
+                throw new Error("Failed to fetch candidates data: " + response.statusText);
             }
             return response.json();
         })
         .then(data => {
             if (!data || data.length === 0) {
-                contestantsShowCon.innerHTML = '<p class="text-gray-700">No contestants available</p>';
+                candidatesShowCon.innerHTML = '<p class="text-gray-700">No candidates available</p>';
                 return;
             }
 
-            contestantsShowCon.innerHTML = ""
+            candidatesShowCon.innerHTML = ""
 
-            // Generate contestant cards
-            data.forEach(contestant => {
-                const contestantCard = document.createElement('div');
-                contestantCard.classList.add('contestant-card', 'bg-white', 'rounded-xl', 'shadow-lg', 'p-5', 'card-hover');
-                contestantCard.setAttribute('data-major', contestant.major); // Store major for filtering
+            // Generate candidate cards
+            data.forEach(candidate => {
+                const candidateCard = document.createElement('div');
+                candidateCard.classList.add('candidate-card', 'bg-white', 'rounded-xl', 'shadow-lg', 'p-5', 'card-hover');
+                candidateCard.setAttribute('data-major', candidate.major); // Store major for filtering
 
                 let majorName = "";
 
-                if (contestant.major == "EC") {
+                if (candidate.major == "EC") {
                     majorName = "Electrical Engineering";
-                } else if (contestant.major == "EP") {
+                } else if (candidate.major == "EP") {
                     majorName = "Electronic Power Engineering";
-                } else if (contestant.major == "ME") {
+                } else if (candidate.major == "ME") {
                     majorName = "Mechanical Engineering";
-                } else if (contestant.major == "CE") {
+                } else if (candidate.major == "CE") {
                     majorName = "Civil Engineering";
                 }
 
-                contestantCard.innerHTML = `
+                candidateCard.innerHTML = `
                     <div class="relative">
-                        <img class="w-full h-60 object-cover" src="${contestant.profileImg || '../uploads/contestants/contestant3.jpg'}" alt="Profile image of ${contestant.name}" />
+                        <img class="w-full h-60 object-cover" src="${candidate.profileImg || '../uploads/candidate/contestant3.jpg'}" alt="Profile image of ${candidate.name}" />
                         <div class="flex absolute left-5 bottom-5 items-center text-sm">
                             <span class="w-16 h-16 text-3xl font-bold bg-blue-100 text-blue-800 flex items-center justify-center rounded-full mr-3">
-                                ${contestant.contestant_no}
+                                ${candidate.candidate_no}
                             </span>
                         </div>
                     </div>
-                    <h2 class="text-2xl font-bold text-blue-800 my-4">${contestant.name}</h2>
+                    <h2 class="text-2xl font-bold text-blue-800 my-4">${candidate.name}</h2>
                     <p class="font-bold">Major - ${majorName}</p>
                     <button 
                         class="voteBtn bg-blue-700 text-white px-4 py-2 rounded mt-4" 
-                        data-name="${contestant.name}" 
-                        data-number="${contestant.contestant_no}" 
-                        data-major="${contestant.major}"
-                        data-gender="${contestant.gender}"
-                        data-email="${contestant.email}">
+                        data-name="${candidate.name}" 
+                        data-number="${candidate.candidate_no}" 
+                        data-major="${candidate.major}"
+                        data-gender="${candidate.gender}"
+                        data-email="${candidate.email}">
                         Vote Now
                     </button>
                 `;
 
-                contestantsShowCon.appendChild(contestantCard);
+                candidatesShowCon.appendChild(candidateCard);
             });
 
             setupVoteButtons();
         })
         .catch(error => {
-            console.error("Error loading contestants:", error);
-            contestantsShowCon.innerHTML = `<p class="text-red-600">Error loading contestants. Please try again later. ${error.message}</p>`;
+            console.error("Error loading candidates:", error);
+            candidatesShowCon.innerHTML = `<p class="text-red-600">Error loading candidates. Please try again later. ${error.message}</p>`;
         });
 
     // Setup vote buttons
@@ -253,8 +253,8 @@ echo $user_major; ?>
         const voteButtons = document.querySelectorAll(".voteBtn");
         const matchModal = document.getElementById("matchModal");
         const mismatchModal = document.getElementById("mismatchModal");
-        const matchContestantName = document.getElementById("matchContestantName");
-        const matchContestantNumber = document.getElementById("matchContestantNumber");
+        const matchcandidateName = document.getElementById("matchcandidateName");
+        const matchcandidateNumber = document.getElementById("matchcandidateNumber");
         const closeMatchModal = document.getElementById("closeMatchModal");
         const closeMismatchModal = document.getElementById("closeMismatchModal");
         const confirmMatchVote = document.getElementById("confirmMatchVote");
@@ -270,15 +270,15 @@ echo $user_major; ?>
                 console.log(userMajor);
 
                 if (major === userMajor) {
-                    matchContestantName.textContent = name;
-                    matchContestantNumber.textContent = number;
+                    matchcandidateName.textContent = name;
+                    matchcandidateNumber.textContent = number;
                     matchModal.classList.remove("hidden");
                     document.querySelector("#confirmMatchVote").addEventListener("click", () => confirmVote(email));
                     closeMatchModal.addEventListener("click", () => matchModal.classList.add("hidden"));
                 } else {
                     mismatchModal.classList.remove("hidden");
-                    document.getElementById("mismatchContestantName").textContent = name;
-                    document.getElementById("mismatchContestantNumber").textContent = number;
+                    document.getElementById("mismatchcandidateName").textContent = name;
+                    document.getElementById("mismatchcandidateNumber").textContent = number;
                 }
             });
         });
@@ -301,8 +301,8 @@ echo $user_major; ?>
         })
     }
 
-    function filterContestants(major) {
-        const cards = document.querySelectorAll('.contestant-card');
+    function filtercandidates(major) {
+        const cards = document.querySelectorAll('.candidate-card');
         cards.forEach(card => {
             if (major === 'all' || card.getAttribute('data-major') === major) {
                 card.classList.remove('hidden');
@@ -316,7 +316,7 @@ echo $user_major; ?>
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('input', function() {
         const query = searchInput.value.toLowerCase();
-        const cards = document.querySelectorAll('.contestant-card');
+        const cards = document.querySelectorAll('.candidate-card');
         cards.forEach(card => {
             const name = card.querySelector('h2').textContent.toLowerCase();
             const number = card.querySelector('.w-16').textContent;

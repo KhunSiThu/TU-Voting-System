@@ -11,100 +11,86 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Example OTP for testing
     $correctOtp = $_SESSION['verification_code'];
+
     $email = $_SESSION['user_email'];
+    $user_name = $_SESSION['user_name'];
+    $user_major = $_SESSION["user_major"];
+    $password = $_SESSION['user_password'];
 
+    // Hash password before storing
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+
+    // Check if OTP is correct
     if ($otp === $correctOtp) {
+        // Database connection
+        require_once './db_connect.php'; // Replace with your database config file path
 
-        // Check if the password is not null or verify the existing password
-        if ($user['password'] == null || password_verify($_POST['password'], $user['password'])) {
-            // Hash the new password using bcrypt
-            $hashed_password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+        $sql = "INSERT INTO users (name, email, major, password) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
 
-            // Update password query
-            $sql2 = "UPDATE users SET password = ? WHERE email = ? OR name = ?";
-            $stmt2 = mysqli_prepare($conn, $sql2);
+        if ($stmt) {
+            // Bind parameters
+            $stmt->bind_param("ssss", $user_name, $email, $user_major, $hashedPassword);
 
-            $name_email = $_SESSION['user_email'];
-
-            if ($stmt2) {
-                // Bind the parameters and execute the query to update the password
-                mysqli_stmt_bind_param($stmt2, "sss", $hashed_password, $name_email, $name_email);
-                mysqli_stmt_execute($stmt2);
-            } else {
-                echo json_encode(['error' => 'Failed to update password. Please try again later.']);
+            // Execute and check for success
+            if ($stmt->execute()) {
+                // Redirect to login page on success
+                header("Location: ../Public/login.php");
                 exit;
+            } else {
+                // Handle database insertion error
+                echo "Error: " . $stmt->error;
             }
+
+            // Close statement
+            $stmt->close();
         } else {
-            // Password doesn't match
-            echo json_encode(['error' => 'Incorrect current password.']);
-            header("Location:../Public/form.php");
-            exit;
+            echo "Error preparing statement: " . $conn->error;
         }
 
-        // Redirect to upload user page on success
-        header("Location: ../Views/upProFile.php");
-        exit;
+        // Close database connection
+        $conn->close();
     } else {
         $_SESSION['message'] = "Invalid OTP. Please try again.";
         $_SESSION['message_type'] = "error";
 
         // If OTP is incorrect, check if "Resend OTP" is clicked
         if (isset($_POST['resend_otp'])) {
-            // Prepare and execute SQL query to check if email or username exists
-            $sql = "SELECT * FROM users WHERE email = ? ";
-            $stmt = mysqli_prepare($conn, $sql);
+            // Generate a random 4-digit verification code
+            $verification_code = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
 
-            if ($stmt) {
-                mysqli_stmt_bind_param($stmt, "s", $email);
-                mysqli_stmt_execute($stmt);
+            // Store the verification code in the session
+            $_SESSION['verification_code'] = $verification_code;
 
-                $result = mysqli_stmt_get_result($stmt);
+            require "../src/sendEmail/vendor/autoload.php";
 
-                if (mysqli_num_rows($result) > 0) {
-                    $user = mysqli_fetch_assoc($result);
+            $mail = new PHPMailer(true);
 
-                    // Generate a random 4-digit verification code
-                    $verification_code = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+            // Configure SMTP
+            $mail->isSMTP();
+            $mail->SMTPAuth = true;
+            $mail->Host = "smtp.gmail.com";
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port = 587;
 
-                    // Store the verification code in the session
-                    $_SESSION['verification_code'] = $verification_code;
-                    $_SESSION['user_email'] = $user['email'];
+            $mail->Username = "khunsithuaung65@gmail.com";
+            $mail->Password = "usfb tkha xhhz iygs";
 
-                    require "../src/sendEmail/vendor/autoload.php";
+            // Sender and recipient details
+            $mail->setFrom($email, "Voting App");
+            $mail->addAddress($email);
 
-                    $mail = new PHPMailer(true);
+            // Email content
+            $verificationCode = $verification_code; // Generate a random verification code
+            $mail->Subject = "Account Verification";
+            $mail->Body = "Hello $user_name,\n\nYour verification code is: $verificationCode\n\nPlease use this code to complete your account verification.";
 
-                    // Configure SMTP
-                    $mail->isSMTP();
-                    $mail->SMTPAuth = true;
-                    $mail->Host = "smtp.gmail.com";
-                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                    $mail->Port = 587;
-
-                    $mail->Username = "khunsithuaung65@gmail.com";
-                    $mail->Password = "usfb tkha xhhz iygs";
-
-                    // Sender and recipient details
-                    $mail->setFrom($user['email'], "Voting App");
-                    $mail->addAddress($user['email']);
-
-                    // Email content
-                    $verificationCode = $verification_code; // Generate a random verification code
-                    $mail->Subject = "Account Verification";
-                    $mail->Body = "Hello ,\n\nYour verification code is: $verificationCode\n\nPlease use this code to complete your account verification.";
-
-                    if ($mail->send()) {
-                        header("Location:../Views/verify.php");
-                    } else {
-                        header("Location:../Public/form.php");
-                    }
-                } else {
-                    echo json_encode(['error' => 'This email or username does not exist.']);
-                }
-
-                mysqli_stmt_close($stmt);
+            if ($mail->send()) {
+                header("Location:../Views/verify.php");
             } else {
-                echo json_encode(['error' => 'Database query preparation failed. Please try again later.']);
+                session_unset();
+                header("Location:../Public/signup.php");
             }
 
             $_SESSION['message'] = "A new OTP has been sent to your email.";

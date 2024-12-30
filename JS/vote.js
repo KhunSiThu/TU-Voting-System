@@ -38,8 +38,8 @@ const filterQueen = document.querySelector("#filter_queen");
 const filterKingBtn = document.querySelector("#filterKingBtn");
 const filterQueenBtn = document.querySelector("#filterQueenBtn");
 
-// Fetch contestants data
-fetch("../Controllers/getMajorContestants.php")
+// Fetch candidate data
+fetch("../Controllers/getMajorCandidate.php")
     .then((response) => response.json())
     .then((data) => {
         if (!data || data.length === 0) {
@@ -51,43 +51,43 @@ fetch("../Controllers/getMajorContestants.php")
         let king = "";
         let queen = "";
 
-        data.forEach((contestant) => {
-            let majorName = getMajorName(contestant.major);
+        data.forEach((candidate) => {
+            let majorName = getMajorName(candidate.major);
 
             const cardHTML = `
-                <div class="bg-white rounded-xl shadow-lg contestant-card p-5 card-hover">
+                <div class="bg-white rounded-xl shadow-lg candidate-card p-5 card-hover">
                     <div class="relative">
-                        <img class="w-full h-60 object-cover" src="${contestant.profileImg || '../uploads/contestants/contestant3.jpg'}" alt="Profile image of ${contestant.name}" />
+                        <img class="w-full h-60 object-cover" src="${candidate.profileImg || '../uploads/candidate/contestant3.jpg'}" alt="Profile image of ${candidate.name}" />
                         <div class="flex absolute left-5 bottom-5 items-center text-sm">
                             <span class="w-16 h-16 text-3xl font-bold bg-blue-100 text-blue-800 flex items-center justify-center rounded-full mr-3">
-                                ${contestant.contestant_no}
+                                ${candidate.candidate_no}
                             </span>
                         </div>
                     </div>
                     <div class="mb-6">
-                        <h1 class="text-2xl font-bold text-blue-800 my-4">${contestant.name}</h1>
+                        <h1 class="text-2xl font-bold text-blue-800 my-4">${candidate.name}</h1>
                         <p class="mb-3 font-bold">Major - ${majorName}</p>
                     </div>
                    <button 
                     class="voteBtn bg-blue-700 text-white px-4 py-2 rounded mt-4" 
-                    data-name="${contestant.name}" 
-                    data-number="${contestant.contestant_no}" 
-                    data-major="${contestant.major}"
-                    data-gender="${contestant.gender}"
-                    data-email="${contestant.email}">
+                    data-name="${candidate.name}" 
+                    data-number="${candidate.candidate_no}" 
+                    data-major="${candidate.major}"
+                    data-gender="${candidate.gender}"
+                    data-email="${candidate.email}">
                     Vote Now
                 </button>
                 </div>`;
 
-            if (contestant.gender === "Male") {
+            if (candidate.gender === "Male") {
                 king += cardHTML;
             } else {
                 queen += cardHTML;
             }
         });
 
-        filterKing.innerHTML = king || '<p class="text-gray-700">No contestants available for King.</p>';
-        filterQueen.innerHTML = queen || '<p class="text-gray-700">No contestants available for Queen.</p>';
+        filterKing.innerHTML = king || '<p class="text-gray-700">No candidate available for King.</p>';
+        filterQueen.innerHTML = queen || '<p class="text-gray-700">No candidate available for Queen.</p>';
 
         // Event listener for vote buttons
         document.querySelector("#votePage").addEventListener("click", (event) => {
@@ -113,30 +113,30 @@ fetch("../Controllers/getMajorContestants.php")
         });
     })
     .catch((error) => {
-        console.error("Error fetching contestants:", error);
-        filterKing.innerHTML = '<p class="text-red-600">Error loading King contestants. Please try again later.</p>';
-        filterQueen.innerHTML = '<p class="text-red-600">Error loading Queen contestants. Please try again later.</p>';
+        console.error("Error fetching candidate:", error);
+        filterKing.innerHTML = '<p class="text-red-600">Error loading King candidate. Please try again later.</p>';
+        filterQueen.innerHTML = '<p class="text-red-600">Error loading Queen candidate. Please try again later.</p>';
     });
 
 // Add event listeners for filtering
 filterKingBtn.addEventListener("click", () => {
-    toggleContestantsVisibility(filterKing, filterQueen);
+    togglecandidateVisibility(filterKing, filterQueen);
     document.querySelector("#Hero .h3").innerHTML = `
-        <h3 class="text-xl md:text-3xl font-bold mr-5">Contestants For King </h3>
+        <h3 class="text-xl md:text-3xl font-bold mr-5">candidate For King </h3>
         <i class="fas fa-crown cursor-pointer text-3xl" id="kingIcon"></i>
     `;
 });
 
 filterQueenBtn.addEventListener("click", () => {
-    toggleContestantsVisibility(filterQueen, filterKing);
+    togglecandidateVisibility(filterQueen, filterKing);
     document.querySelector("#Hero .h3").innerHTML = `
-        <h3 class="text-xl md:text-3xl font-bold mr-5 text-pink-500">Contestants For Queen </h3>
+        <h3 class="text-xl md:text-3xl font-bold mr-5 text-pink-500">candidate For Queen </h3>
         <i class="fas fa-crown cursor-pointer text-3xl text-pink-500" id="kingIcon"></i>
     `;
 });
 
-// Function to toggle visibility of contestants
-function toggleContestantsVisibility(showElement, hideElement) {
+// Function to toggle visibility of candidate
+function togglecandidateVisibility(showElement, hideElement) {
     showElement.classList.remove("hidden");
     hideElement.classList.add("hidden");
 }

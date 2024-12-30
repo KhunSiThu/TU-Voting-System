@@ -18,7 +18,7 @@
           <span class="s2 block my-6">Technological University (Yamethin)</span>
         </h1>
         <p class="text-lg text-white sm:text-xl md:text-2xl mb-2 opacity-50 ">
-          Vote for your favorite contestants from your major and make them shine!
+          Vote for your favorite candidate from your major and make them shine!
         </p>
       </div>
     </div>
@@ -86,11 +86,11 @@
     </div>
   </section>
 
-  <!-- Contestants by Major Section -->
+  <!-- candidate by Major Section -->
   <section id="majorCon" class="pb-5 text-center flex justify-center items-center">
     <div class="w-full px-4">
       <h2 class="text-3xl md:text-4xl font-semibold text-blue-500 my-5">
-        Contestants by Major
+        candidate by Major
       </h2>
       <p class="text-lg mb-10">
         Select your major and cast your vote for the King and Queen of your department!
@@ -105,7 +105,7 @@
           <p class="text-gray-600 mb-4 prose text-justify">
             Vote for the King and Queen from the Electronic Engineering major. These students are leading the way in technology and innovation.
           </p>
-          <a href="./contestants.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+          <a href="./candidate.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
             Vote Now
           </a>
         </div>
@@ -119,7 +119,7 @@
           <p class="text-gray-600 mb-4 prose text-justify">
             Cast your vote for the King and Queen of the Electrical Power Engineering major. Empower the future of energy and power systems.
           </p>
-          <a href="./contestants.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+          <a href="./candidate.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
             Vote Now
           </a>
         </div>
@@ -131,7 +131,7 @@
           <p class="text-gray-600 mb-4 prose text-justify">
             Vote for the King and Queen from Mechanical Engineering, where students are shaping the future of machines and technology.
           </p>
-          <a href="./contestants.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+          <a href="./candidate.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
             Vote Now
           </a>
         </div>
@@ -143,7 +143,7 @@
           <p class="text-gray-600 mb-4 prose text-justify">
             Cast your vote for the King and Queen of the Civil Engineering major. Help build a strong foundation for the future of infrastructure.
           </p>
-          <a href="./contestants.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+          <a href="./candidate.php" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
             Vote Now
           </a>
         </div>

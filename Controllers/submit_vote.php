@@ -8,10 +8,10 @@ $user_email = $_SESSION['user_email'];
 
 // Retrieve the POST data
 $data = json_decode(file_get_contents("php://input"), true);
-$contestant_email = $data['email'] ?? '';
+$candidate_email = $data['email'] ?? '';
 
 // Validate email
-if (empty($contestant_email) || !filter_var($contestant_email, FILTER_VALIDATE_EMAIL)) {
+if (empty($candidate_email) || !filter_var($candidate_email, FILTER_VALIDATE_EMAIL)) {
     echo json_encode([
         "status" => "error",
         "message" => "Invalid email address.",
@@ -19,26 +19,26 @@ if (empty($contestant_email) || !filter_var($contestant_email, FILTER_VALIDATE_E
     exit();
 }
 
-// Check if contestant exists
-$stmt = $conn->prepare("SELECT * FROM contestants WHERE email = ?");
-$stmt->bind_param("s", $contestant_email);
+// Check if candidate exists
+$stmt = $conn->prepare("SELECT * FROM candidate WHERE email = ?");
+$stmt->bind_param("s", $candidate_email);
 $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows === 0) {
     echo json_encode([
         "status" => "error",
-        "message" => "Contestant email not found.",
+        "message" => "candidate email not found.",
     ]);
     $stmt->close();
     $conn->close();
     exit();
 }
 
-$contestant = $result->fetch_assoc();
-$contestant_no = $contestant['contestant_no'];
-$contestant_major = $contestant['major'];
-$gender = $contestant['gender'];
+$candidate = $result->fetch_assoc();
+$candidate_no = $candidate['candidate_no'];
+$candidate_major = $candidate['major'];
+$gender = $candidate['gender'];
 
 // Determine the table based on gender
 $table = ($gender === 'Female') ? 'vote_queen' : 'vote_king';
@@ -58,7 +58,7 @@ $checkQueenVoteResult = $checkQueenVoteStmt->get_result();
 if ($checkKingVoteResult->num_rows > 0 && $checkQueenVoteResult->num_rows > 0) {
     echo json_encode([
         "status" => "error",
-         "message" => "You have already voted for this contestant. You can only vote for one King and one Queen."
+         "message" => "You have already voted for this candidate. You can only vote for one King and one Queen."
     ]);
     $checkKingVoteStmt->close();
     $checkQueenVoteStmt->close();
@@ -92,8 +92,8 @@ if ($checkQueenVoteResult->num_rows > 0 && $gender === 'Female') {
 }
 
 // Insert the vote into the appropriate table
-$insertStmt = $conn->prepare("INSERT INTO $table (voter_email, contestant_email, contestant_no, contestant_major) VALUES (?, ?, ?, ?)");
-$insertStmt->bind_param("ssss", $user_email, $contestant_email, $contestant_no, $contestant_major);
+$insertStmt = $conn->prepare("INSERT INTO $table (voter_email, candidate_email, candidate_no, candidate_major) VALUES (?, ?, ?, ?)");
+$insertStmt->bind_param("ssss", $user_email, $candidate_email, $candidate_no, $candidate_major);
 
 if ($insertStmt->execute()) {
     echo json_encode([

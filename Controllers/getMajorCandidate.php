@@ -3,14 +3,14 @@
 session_start();
 
 // Fetch the major from the session, or fallback to a default value
-$major = isset($_SESSION['user_major']) ? $_SESSION['user_major'] : "EC";
+$major = isset($_SESSION['user_major']) ? $_SESSION['user_major'] : "";
 
 // Include the database connection
 require_once './db_connect.php';
 
 try {
     // Prepare the SQL query to prevent SQL injection
-    $stmt = $conn->prepare("SELECT * FROM contestants WHERE major = ?");
+    $stmt = $conn->prepare("SELECT * FROM candidate WHERE major = ?");
     $stmt->bind_param("s", $major); // "s" specifies the type of the variable (string)
 
     // Execute the query
