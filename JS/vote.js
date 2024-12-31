@@ -55,7 +55,7 @@ fetch("../Controllers/getMajorCandidate.php")
             let majorName = getMajorName(candidate.major);
 
             const cardHTML = `
-                <div class="bg-white rounded-xl shadow-lg candidate-card p-5 card-hover">
+                <div class="bg-white rounded-xl shadow-lg candidate-card p-5 card-hover" id="${candidate.id}">
                     <div class="relative">
                         <img class="w-full h-60 object-cover" src="${candidate.profileImg || '../uploads/candidate/contestant3.jpg'}" alt="Profile image of ${candidate.name}" />
                         <div class="flex absolute left-5 bottom-5 items-center text-sm">
@@ -74,7 +74,8 @@ fetch("../Controllers/getMajorCandidate.php")
                     data-number="${candidate.candidate_no}" 
                     data-major="${candidate.major}"
                     data-gender="${candidate.gender}"
-                    data-email="${candidate.email}">
+                    data-email="${candidate.email}"
+                    data-id="${candidate.id}">
                     Vote Now
                 </button>
                 </div>`;
@@ -102,12 +103,13 @@ fetch("../Controllers/getMajorCandidate.php")
                 const major = event.target.getAttribute("data-major");
                 const gender = event.target.getAttribute("data-gender");
                 const email = event.target.getAttribute("data-email");
+                const id = event.target.getAttribute("data-id");
 
                 matchContestantName.textContent = name;
                 matchContestantNumber.textContent = number;
                 matchModal.classList.remove("hidden");
 
-                document.querySelector("#confirmMatchVote").addEventListener("click", () => confirmVote(email));
+                document.querySelector("#confirmMatchVote").addEventListener("click", () => confirmVote(email,id));
                 closeMatchModal.addEventListener("click", () => matchModal.classList.add("hidden"));
             }
         });
@@ -122,7 +124,7 @@ fetch("../Controllers/getMajorCandidate.php")
 filterKingBtn.addEventListener("click", () => {
     togglecandidateVisibility(filterKing, filterQueen);
     document.querySelector("#Hero .h3").innerHTML = `
-        <h3 class="text-xl md:text-3xl font-bold mr-5">candidate For King </h3>
+        <h3 class="text-xl md:text-3xl font-bold mr-5">Candidates For King </h3>
         <i class="fas fa-crown cursor-pointer text-3xl" id="kingIcon"></i>
     `;
 });
@@ -130,7 +132,7 @@ filterKingBtn.addEventListener("click", () => {
 filterQueenBtn.addEventListener("click", () => {
     togglecandidateVisibility(filterQueen, filterKing);
     document.querySelector("#Hero .h3").innerHTML = `
-        <h3 class="text-xl md:text-3xl font-bold mr-5 text-pink-500">candidate For Queen </h3>
+        <h3 class="text-xl md:text-3xl font-bold mr-5 text-pink-500">Candidates For Queen </h3>
         <i class="fas fa-crown cursor-pointer text-3xl text-pink-500" id="kingIcon"></i>
     `;
 });
@@ -152,11 +154,11 @@ function getMajorName(majorCode) {
     return majorNames[majorCode] || "Unknown Major";
 }
 
-async function confirmVote(email) {
+async function confirmVote(email,id) {
     const matchModal = document.getElementById("matchModal");
     matchModal.classList.add("hidden");
 
-    const voteData = { email };
+    const voteData = { email,id };
 
     try {
         const response = await fetch("../Controllers/submit_vote.php", {

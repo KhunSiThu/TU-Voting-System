@@ -9,6 +9,7 @@ $user_email = $_SESSION['user_email'];
 // Retrieve the POST data
 $data = json_decode(file_get_contents("php://input"), true);
 $candidate_email = $data['email'] ?? '';
+$candidate_id = $data['id'];
 
 // Validate email
 if (empty($candidate_email) || !filter_var($candidate_email, FILTER_VALIDATE_EMAIL)) {
@@ -81,6 +82,7 @@ if ($checkKingVoteResult->num_rows > 0 && $gender === 'Male') {
 
 // If the user has already voted for Queen
 if ($checkQueenVoteResult->num_rows > 0 && $gender === 'Female') {
+   
     echo json_encode([
         "status" => "error",
         "message" => "You have already voted for a Queen. You can only vote for one King and one Queen."
@@ -96,6 +98,16 @@ $insertStmt = $conn->prepare("INSERT INTO $table (voter_email, candidate_email, 
 $insertStmt->bind_param("ssss", $user_email, $candidate_email, $candidate_no, $candidate_major);
 
 if ($insertStmt->execute()) {
+
+    if($gender === 'Male') {
+        $_SESSION['voteKingId'] = $candidate_id;
+    } else {
+        $_SESSION['voteQueenId'] = $candidate_id;
+    }
+    
+
+       
+    
     echo json_encode([
         "status" => "success",
         "message" => "Your vote has been successfully recorded.",

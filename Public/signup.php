@@ -2,7 +2,7 @@
 require_once "../Components/header.php";
 session_start();
 
-if($_SESSION['user_email']) {
+if($_SESSION['user']) {
   header("Location: ./login.php?error"); 
 }
 ?>

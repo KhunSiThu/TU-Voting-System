@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Execute and check for success
             if ($stmt->execute()) {
+                $_SESSION['user'] = "success";
                 // Redirect to login page on success
                 header("Location: ../Public/login.php");
                 exit;

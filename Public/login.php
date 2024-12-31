@@ -2,7 +2,6 @@
 require_once "../Components/header.php";
 session_start();
 
-session_unset();
 
 if (isset($_GET['error'])) {
     echo "

@@ -170,7 +170,8 @@ echo $user_major; ?>
 
 <script>
     const candidatesShowCon = document.querySelector("#candidates-show-con");
-
+    let voteKingId = <?php echo json_encode($_SESSION['voteKingId']); ?>;
+    let voteQueenId = <?php echo json_encode($_SESSION['voteQueenId']); ?>;
 
     const allMajor = {
         EC: "Electrical Engineering",
@@ -200,8 +201,17 @@ echo $user_major; ?>
 
             // Generate candidate cards
             data.forEach(candidate => {
+
+                if (voteKingId == candidate.id) {
+                    bgColor = "bg-blue-200";
+                } else if (voteQueenId == candidate.id) {
+                    bgColor = "bg-pink-200";
+                } else {
+                    bgColor = "bg-white";
+                }
+
                 const candidateCard = document.createElement('div');
-                candidateCard.classList.add('candidate-card', 'bg-white', 'rounded-xl', 'shadow-lg', 'p-5', 'card-hover');
+                candidateCard.classList.add('candidate-card', bgColor, 'rounded-xl', 'shadow-lg', 'p-5', 'card-hover');
                 candidateCard.setAttribute('data-major', candidate.major); // Store major for filtering
 
                 let majorName = "";
@@ -233,7 +243,8 @@ echo $user_major; ?>
                         data-number="${candidate.candidate_no}" 
                         data-major="${candidate.major}"
                         data-gender="${candidate.gender}"
-                        data-email="${candidate.email}">
+                        data-email="${candidate.email}"
+                        data-id = "${candidate.id}">
                         Vote Now
                     </button>
                 `;
@@ -265,6 +276,7 @@ echo $user_major; ?>
                 const number = button.getAttribute("data-number");
                 const major = button.getAttribute("data-major");
                 const email = button.getAttribute("data-email");
+                const id = button.getAttribute("data-id");
 
                 let userMajor = <?php echo json_encode($_SESSION['user_major']); ?>;
                 console.log(userMajor);
@@ -273,7 +285,9 @@ echo $user_major; ?>
                     matchcandidateName.textContent = name;
                     matchcandidateNumber.textContent = number;
                     matchModal.classList.remove("hidden");
-                    document.querySelector("#confirmMatchVote").addEventListener("click", () => confirmVote(email));
+                    document.querySelector("#confirmMatchVote").addEventListener("click", () => {
+                        confirmVote(email,id);
+                    });
                     closeMatchModal.addEventListener("click", () => matchModal.classList.add("hidden"));
                 } else {
                     mismatchModal.classList.remove("hidden");
@@ -328,12 +342,12 @@ echo $user_major; ?>
         });
     });
 
-    async function confirmVote(email) {
+    async function confirmVote(email,id) {
         const matchModal = document.getElementById("matchModal");
         matchModal.classList.add("hidden");
 
         const voteData = {
-            email
+            email,id
         };
 
         try {
