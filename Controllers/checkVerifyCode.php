@@ -23,8 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Check if OTP is correct
     if ($otp === $correctOtp) {
-        // Database connection
-        require_once './db_connect.php'; // Replace with your database config file path
+        
 
         $sql = "INSERT INTO users (name, email, major, password) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);

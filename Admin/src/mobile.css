@@ -1,0 +1,11 @@
+@media (max-width: 800px) {
+    #main-container #voter-container #voter-box {
+        .img-con {
+            width: 100%;
+        }
+
+        .info-con {
+            width: 100%;
+        }
+    }
+}

@@ -22,6 +22,46 @@
   }
 }
 
+#countdown {
+
+  font-family: 'Poppins', sans-serif;
+
+  .circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+
+  }
+
+  .circle svg {
+    transform: rotate(-90deg);
+
+  }
+
+  .circle .progress {
+    fill: none;
+    stroke-width: 12;
+    stroke-linecap: round;
+    transform-origin: center;
+  }
+
+  .circle .background {
+    fill: none;
+    stroke: rgba(0, 0, 0, 0.14);
+    stroke-width: 12;
+
+  }
+
+  .circle .label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-weight: bold;
+  }
+}
+
 /* Card Hover */
 
 .card-hover {
@@ -44,7 +84,7 @@
   }
 
   .mainHeader {
-    width: 70vw;
+    /* width: 70vw; */
   }
 
   /* Hero and Time */
@@ -57,52 +97,14 @@
     }
   }
 
-  #countdown {
 
-    font-family: 'Poppins', sans-serif;
-
-    .circle {
-      position: relative;
-      width: 120px;
-      height: 120px;
-
-    }
-
-    .circle svg {
-      transform: rotate(-90deg);
-
-    }
-
-    .circle .progress {
-      fill: none;
-      stroke-width: 12;
-      stroke-linecap: round;
-      transform-origin: center;
-    }
-
-    .circle .background {
-      fill: none;
-      stroke: rgba(0, 0, 0, 0.14);
-      stroke-width: 12;
-
-    }
-
-    .circle .label {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      font-weight: bold;
-    }
-  }
 
   /* Contestants by Major Section */
 
   #majorCon {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
-    padding: 70px;
+    padding: 70px 20px;
   }
 }
 

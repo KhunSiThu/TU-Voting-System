@@ -2,8 +2,9 @@
 
 <?php require_once "../Components/navBar.php" ?>
 
+<div id="main-section" class="sm:ml-64">
     <!-- Main Content -->
-    <main class="container mx-auto px-6 py-12">
+    <main class="container mx-auto px-6 py-12 mt-14">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
         <!-- Contact Information -->
         <div class="space-y-6">
@@ -120,7 +121,7 @@
               <h3 class="font-semibold text-lg text-blue-600 mb-2">
                 Academic Support
               </h3>
-              <p class="text-gray-700">
+              <p class="text-gray-700 prose text-justify">
                 We provide guidance and resources to help students achieve their
                 academic goals.
               </p>
@@ -129,7 +130,7 @@
               <h3 class="font-semibold text-lg text-blue-600 mb-2">
                 Partnerships
               </h3>
-              <p class="text-gray-700">
+              <p class="text-gray-700 prose text-justify">
                 We collaborate with industry leaders to drive innovation and
                 research.
               </p>
@@ -138,7 +139,7 @@
               <h3 class="font-semibold text-lg text-blue-600 mb-2">
                 Community Outreach
               </h3>
-              <p class="text-gray-700">
+              <p class="text-gray-700 prose text-justify">
                 Our programs aim to impact the community through education and
                 technology.
               </p>
@@ -149,3 +150,5 @@
     </main>
 
 <?php require_once "../Components/footer.php" ?>
+
+</div>

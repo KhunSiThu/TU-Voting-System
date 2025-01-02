@@ -1,0 +1,117 @@
+.navbar {
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 9vh;
+}
+
+.navbar a {
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  transition: color 0.3s, background-color 0.3s;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  color: rgb(43, 43, 255);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.menu-lists {
+  a {
+    color: black;
+  }
+}
+
+/* Card Hover */
+
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+#homePage {
+
+  .uniLogoCon {
+    width: 18vw;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .mainHeader {
+    /* width: 70vw; */
+  }
+
+  /* Hero and Time */
+
+  .hero_time_section {
+    height: 91vh;
+
+    section {
+      height: 50%;
+    }
+  }
+
+  #countdown {
+
+    font-family: 'Poppins', sans-serif;
+
+    .circle {
+      position: relative;
+      width: 120px;
+      height: 120px;
+
+    }
+
+    .circle svg {
+      transform: rotate(-90deg);
+
+    }
+
+    .circle .progress {
+      fill: none;
+      stroke-width: 12;
+      stroke-linecap: round;
+      transform-origin: center;
+    }
+
+    .circle .background {
+      fill: none;
+      stroke: rgba(0, 0, 0, 0.14);
+      stroke-width: 12;
+
+    }
+
+    .circle .label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+
+  /* Contestants by Major Section */
+
+  #majorCon {
+    width: 100%;
+    height: 100vh;
+    padding: 70px 20px;
+  }
+}
+
+.bg-blur {
+  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.709);
+}
+#votePage {
+  .header {
+    
+  }
+}

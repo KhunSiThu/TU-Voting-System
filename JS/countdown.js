@@ -1,4 +1,8 @@
-const votingEndDate = new Date("2024-12-31T23:59:59").getTime();
+fetch('../Controllers/get_voting_end.php')
+  .then(response => response.json())  // Get the response in JSON format
+  .then(data => {
+
+const votingEndDate = new Date(data).getTime();
 
 function updateCountdown() {
   const now = new Date().getTime();
@@ -7,6 +11,13 @@ function updateCountdown() {
   const totalSecondsInDay = 24 * 60 * 60;
   const totalSecondsInHour = 60 * 60;
   const totalSecondsInMinute = 60;
+
+    // Stop timer when time is up
+    if (distance < 0) {
+      clearInterval(interval);
+      document.querySelector("#viewResultBtn").classList.remove("hidden");
+      return;
+    }
 
   // Time calculations
   const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -33,13 +44,7 @@ function updateCountdown() {
   document.getElementById("progress-minutes").setAttribute("stroke-dasharray", `${remainingMinutes * 3.14}, 314`);
   document.getElementById("progress-seconds").setAttribute("stroke-dasharray", `${remainingSeconds * 3.14}, 314`);
 
-  // Stop timer when time is up
-  if (distance < 0) {
-    clearInterval(interval);
-    document.querySelector("body").innerHTML = `
-      <div class="text-center text-3xl font-bold text-red-400">Voting has ended!</div>
-    `;
-  }
+
 }
 
 // Set up SVG progress circle
@@ -49,3 +54,8 @@ document.querySelectorAll(".progress").forEach((circle) => {
 
 // Update countdown every second
 const interval = setInterval(updateCountdown, 1000);
+
+})
+.catch(error => {
+  console.error('Error fetching voting end time:', error);
+});
